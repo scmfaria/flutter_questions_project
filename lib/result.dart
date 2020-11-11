@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
@@ -29,7 +27,7 @@ class Result extends StatelessWidget {
           child: Text(phraseResult,
           style: TextStyle(
               fontSize: 28, 
-              color: Colors.pinkAccent
+              color: Colors.blue
             )
           ),
         ),
@@ -39,7 +37,7 @@ class Result extends StatelessWidget {
             'Reiniciar?',
             style: TextStyle(fontSize: 18),
           ),
-          textColor: Colors.blue,
+          textColor: Colors.pink,
         )
       ],
     );
