@@ -8,5 +8,5 @@ My first project in Dart/Flutter :)
 
 <img src="https://github.com/scmfaria/flutter_questions_project/blob/master/3.png" width="220" height="400"/>
 
-<img src="https://github.com/scmfaria/flutter_questions_project/blob/master/3.png" width="220" height="400"/>
+<img src="https://github.com/scmfaria/flutter_questions_project/blob/master/1.png" width="220" height="400"/>
 
