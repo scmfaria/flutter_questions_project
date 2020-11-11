@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import './quiz.dart';
+import './result.dart';
 
 main() => runApp(QuestionApp());
 
@@ -13,46 +15,72 @@ main() => runApp(QuestionApp());
 // essa classe é Stateless, ou seja, ela nao tem estado, entao todas as variaveis dentro dela devem ser 'final'
 // se eu tentar mudar o valor de uma variavel dentro de um componente Stateless (ex: incrementar uma variavel), eu estou violando o estado. 
 
-class QuestionAppState extends State<QuestionApp> {
+class _QuestionAppState extends State<QuestionApp> {
   // essa classe vai gerar o estado
-  var answersSelected = 0;
+  var _answersSelected = 0;
+  var _totalPoint = 0;
 
-  void answers() {
+  void _answers(int point) {
+    if(hasSelectedQuestion) {
+      setState(() {
+        _answersSelected++;
+        _totalPoint += point;
+      });
+    }
+  }
+
+  void _restartQuiz() {
     setState(() {
-      answersSelected++;
+      _answersSelected = 0;
+      _totalPoint = 0;
     });
-    print('Pergunta respondida');
+  }
+
+  // o Map aceita um tipo mais generico, por isso foi usado aqui 
+  final List<Map<String, Object>> _questions = const [
+    {
+      'text': 'Qual é a cor do céu?',
+      'answer': [
+        {'text': 'azul', 'point': 10 },
+        {'text': 'roxo', 'point': 8 },
+        {'text': 'preto', 'point': 9 },
+        {'text': 'rosa', 'point': 9 },
+      ],
+    },
+    {
+      'text': 'Qual é o melhor amigo do homem?',
+      'answer': [
+        {'text': 'cachorro', 'point': 10 },
+        {'text': 'gato', 'point': 5 },
+        {'text': 'passaro', 'point': 5 },
+        {'text': 'borboleta', 'point': 3 },
+      ],
+    },
+    {
+      'text': 'Quem é o melhor professor de TI do mundo?',
+      'answer': [
+        {'text': 'Maria', 'point': 10 },
+        {'text': 'Joao', 'point': 3 },
+        {'text': 'Pedro', 'point': 9 },
+        {'text': 'Ana', 'point': 8 },
+      ],
+    },
+  ];
+
+  bool get hasSelectedQuestion {
+    return _answersSelected < _questions.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    final questions = [
-      'Qual é a sua cor favorita?',
-      'Qual é seu animal favorito'
-    ];
-
     return MaterialApp(
       home: Scaffold( 
         appBar: AppBar(
           title: Text('Perguntas'),
         ),
-        body: Column(
-          children: [ // aqui sim ele permite colocar uma lista de Widgets 
-            Text(questions[answersSelected]),
-            RaisedButton(
-              child: Text('Resposta 1'),
-              onPressed: answers,
-            ),
-            RaisedButton(
-              child: Text('Resposta 2'),
-              onPressed: answers,
-            ),
-            RaisedButton(
-              child: Text('Resposta 3'),
-              onPressed: answers,
-            ),
-          ],
-        ),
+        body: hasSelectedQuestion ? 
+          Quiz(answer: _answers, questions: _questions, selectedQuestion: _answersSelected) : 
+          Result(_totalPoint, _restartQuiz)
       ),
     );
   }
@@ -61,8 +89,8 @@ class QuestionAppState extends State<QuestionApp> {
 class QuestionApp extends StatefulWidget {
 
   @override
-  QuestionAppState createState() {
-    return QuestionAppState();
+  _QuestionAppState createState() {
+    return _QuestionAppState();
   }
 
 }
